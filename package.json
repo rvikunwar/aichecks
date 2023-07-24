@@ -1,17 +1,17 @@
 {
   "name": "aichecks",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A cli AI tool for analyzing code, and helps you to find potential changes",
   "type": "module",
   "main": "dist/index.js",
-	"files": [
-		"dist"
-	],
-	"bin": {
-		"aichecks": "./dist/index.js"
-	},
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "aichecks": "./dist/index.js"
+  },
   "scripts": {
-		"build": "pkgroll --minify",
+    "build": "pkgroll --minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,7 +19,9 @@
     "url": "git+https://github.com/rvikunwar/aichecks.git"
   },
   "keywords": [
-    "AI", "cli", "code reviews"
+    "AI",
+    "cli",
+    "code reviews"
   ],
   "author": "rvikunwar",
   "license": "ISC",
