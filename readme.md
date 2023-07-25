@@ -1,5 +1,6 @@
 <div align="center">
   <div>
+    <img src=".github/aicheck_demo.png" alt="AI Checks"/>
     <h1 align="center">AI Checks</h1>
   </div>
 	<p>A CLI that helps you to identify potential bugs in your code and suggest changes for better code quality.</p>
@@ -25,6 +26,19 @@
     ```sh
     aichecks config set OPENAI_API_KEY=<your token>
     ```
+
+
+### Upgrading
+
+First check for the installed version using:
+```
+aichecks --version
+```
+
+If it's not the latest version, run:
+```sh
+npm update -g aichecks
+```
 
 ## Usage
 ### CLI mode
