@@ -1,6 +1,6 @@
 {
   "name": "aichecks",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "A cli AI tool for analyzing code, and for suggesting changes for better code quality",
   "type": "module",
   "main": "dist/index.js",
