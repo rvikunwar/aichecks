@@ -1,6 +1,6 @@
 <div align="center">
   <div>
-    <img src=".github/demo.png" alt="AI Checks"/>
+    <img src="./github/demo_ai.png" alt="AI Checks"/>
     <h1 align="center">AI Checks</h1>
   </div>
 	<p>A CLI that helps you to identify potential bugs in your code and suggest changes for better code quality.</p>
