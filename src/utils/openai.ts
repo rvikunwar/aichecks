@@ -2,8 +2,8 @@ import https from 'https';
 import type { ClientRequest, IncomingMessage } from 'http';
 import type { CreateChatCompletionRequest, CreateChatCompletionResponse } from 'openai';
 import { type TiktokenModel } from '@dqbd/tiktoken';
-import { generateGTPResponse } from './init.js';
 import { KnownError } from './error.js';
+import { generateGTPResponse } from './index.js';
 
 const createPost = async (
     hostname: string,

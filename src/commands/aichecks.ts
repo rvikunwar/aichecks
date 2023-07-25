@@ -33,11 +33,11 @@ export default async (
     detectingFile.stop('File analysis completed!');
 
     let messages: messageInterface[];
-    const intend = "     ";
+    const indent = "     ";
 
     const fetchAIResponse = async (fileContent: string) => {
         const s = spinner();
-        s.start('The AI is analyzing your changes');
+        s.start('The AI is analyzing your code');
 
         try {
             messages = await generateChecksAndFeedback(
@@ -59,11 +59,11 @@ export default async (
         messages = await fetchAIResponse(batches[0].content)
         if (messages.length === 0) {
             outro(`${green('✔')} Your code is fine, you can go ahead!`);
-            return;
+            process.exit(1);
         }
         await new Promise((resolve) => setTimeout(() => resolve(null), 1000))
         messages.forEach((suggestionObj) => {
-            console.log(`${red(intend + '#' + suggestionObj.line)} ${cyan(suggestionObj.suggestion)}`)
+            console.log(`${red(indent + '#' + suggestionObj.line)} ${cyan(suggestionObj.suggestion)}`)
         })
     } else {
         async function listBatches(text?: string){
@@ -73,20 +73,20 @@ export default async (
             });
     
             if (isCancel(selected)) {
-                outro('AI review cancelled');
-                return;
+                outro('AI review cancelled!');
+                process.exit(1);
             }
             if (selected && selected.content) {
                 messages = await fetchAIResponse(selected.content)
                 if (messages.length === 0) {
                     outro(`${green('✔')} Your code is fine, you can go ahead!`);
-                    return;
+                } else {
+                    await new Promise((resolve) => setTimeout(() => resolve(null), 1000))
+                    messages.forEach((suggestionObj) => {
+                        console.log(`${red(indent + '#' + suggestionObj.line)} ${cyan(suggestionObj.suggestion)}`)
+                    })
                 }
-                await new Promise((resolve) => setTimeout(() => resolve(null), 1000))
-                messages.forEach((suggestionObj) => {
-                    console.log(`${red(intend + '#' + suggestionObj.line)} ${cyan(suggestionObj.suggestion)}`)
-                })
-                await listBatches('Continue, pick another batch to check')
+                await listBatches('Or continue, pick another batch to check')
             }
         }
         await listBatches()

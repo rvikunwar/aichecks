@@ -32,7 +32,7 @@ export const getFileContent = async (filePath: string) => {
             if (lineLength > batchContentSize) {
                 const chunkSize = batchContentSize;
                 for (let i = 0; i < line.length; i += chunkSize) {
-                    const chunk = line.slice(i, i + chunkSize);
+                    let chunk = line.slice(i, i + chunkSize);
                     if (chunk.length <= batchContentSize/6) {
                         currentBatchContent = `${lineNumber}. ${chunk}\n`;
                         characterCount += lineLength;
