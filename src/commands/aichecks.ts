@@ -2,12 +2,12 @@ import {
     black, dim, green, red, bgCyan, cyan,
 } from 'kolorist';
 import {
-    intro, outro, spinner, select, confirm, isCancel,
+    intro, outro, spinner, select, isCancel,
 } from '@clack/prompts';
 import { getConfig } from '../utils/config.js';
-import { KnownError, handleCliError } from '../utils/error.js';
+import { handleCliError } from '../utils/error.js';
 import { generateChecksAndFeedback } from '../utils/openai.js';
-import { getFileContent } from '../utils/file.js';
+import { contentType, getFileContent } from '../utils/file.js';
 import { getBatchLabel } from '../utils/index.js';
 
 interface messageInterface {
@@ -28,14 +28,15 @@ export default async (
 
     const detectingFile = spinner();
     detectingFile.start('Detecting file');
-    await new Promise((resolve) => setTimeout(() => resolve(null), 1000));
     const batches = await getFileContent(filePath);
+    await new Promise((resolve) => setTimeout(() => resolve(null), 3000))
+
     detectingFile.stop('File analysis completed!');
 
     let messages: messageInterface[];
     const indent = "     ";
 
-    const fetchAIResponse = async (fileContent: string) => {
+    const fetchAIResponse = async (fileContent: contentType[]) => {
         const s = spinner();
         s.start('The AI is analyzing your code');
 
@@ -94,7 +95,6 @@ export default async (
 
     outro(`${green('✔')} Apply provided changes and ignore unrelated suggestion!`);
 })().catch((error) => {
-    console.log("error", error)
     outro(`${red('✖')} ${error.message}`);
     handleCliError(error);
     process.exit(1);
