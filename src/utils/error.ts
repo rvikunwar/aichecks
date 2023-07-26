@@ -15,5 +15,6 @@ export const handleCliError = (error: any) => {
         }
         console.error(`\n${indent}${dim(`aichecks v${version}`)}`);
         console.error(`\n${indent}Please open a Bug report with the information above:`);
+		console.error(`${indent}https://github.com/rvikunwar/aichecks/issues/new`);
     }
 };

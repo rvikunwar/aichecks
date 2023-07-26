@@ -4,6 +4,7 @@ import type { CreateChatCompletionRequest, CreateChatCompletionResponse } from '
 import { type TiktokenModel } from '@dqbd/tiktoken';
 import { KnownError } from './error.js';
 import { generateGTPResponse } from './index.js';
+import { contentType } from './file.js';
 
 const createPost = async (
     hostname: string,
@@ -104,7 +105,7 @@ const sanitizeMessage = (message: string) => {
 export const generateChecksAndFeedback = async (
     apiKey: string,
     model: TiktokenModel,
-    fileContent: string,
+    fileContent: contentType[],
     locale: string,
     completions: number,
     maxLength: number,
@@ -123,10 +124,10 @@ export const generateChecksAndFeedback = async (
                     },
                     {
                         role: 'user',
-                        content: fileContent,
+                        content: JSON.stringify(fileContent),
                     },
                 ],
-                temperature: 0.9,
+                temperature: 1.2,
                 top_p: 1,
                 frequency_penalty: 0,
                 presence_penalty: 0,

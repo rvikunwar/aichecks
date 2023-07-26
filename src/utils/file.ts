@@ -3,9 +3,14 @@ import * as readline from 'readline';
 import { KnownError } from './error.js';
 
 export interface batchType {
-    content: string
+    content: contentType[]
     startLine: number
     endLine: number
+}
+
+export interface contentType {
+    line: number;
+    code: string;
 }
 
 export const fileExists = (filePath: string) => {
@@ -21,10 +26,10 @@ export const getFileContent = async (filePath: string) => {
         const rl = readline.createInterface({ input: fileStream })
 
         const batches: batchType[] = [];
-        const batchContentSize = 5000;
+        const batchContentSize = 2500;
         let lineNumber = 1;
         let characterCount = 0;
-        let currentBatchContent = '';
+        let currentBatchContent: contentType[] = [];
         let currentBatchStartLine = 1;
 
         rl.on('line', (line) => {
@@ -34,22 +39,22 @@ export const getFileContent = async (filePath: string) => {
                 for (let i = 0; i < line.length; i += chunkSize) {
                     let chunk = line.slice(i, i + chunkSize);
                     if (chunk.length <= batchContentSize/6) {
-                        currentBatchContent = `${lineNumber}. ${chunk}\n`;
+                        currentBatchContent = [{ line: lineNumber, code: chunk.trim() }]
                         characterCount += lineLength;
                         lineNumber++;
                     } else {
-                        currentBatchContent = `${lineNumber}. ${chunk}\n`;
+                        currentBatchContent = [{ line: lineNumber, code: chunk.trim() }]
                         const currentBatch: batchType = {
                             content: currentBatchContent,
                             startLine: currentBatchStartLine,
                             endLine: lineNumber,
                         };
-                        currentBatchContent = "";
+                        currentBatchContent = [];
                         batches.push(currentBatch);
                     }
                 }
             } else if (characterCount + lineLength <= batchContentSize) {
-                currentBatchContent += `${lineNumber}. ${line}\n`;
+                currentBatchContent.push({ line: lineNumber, code: line.trim() })
                 characterCount += lineLength;
                 lineNumber++;
             } else {
@@ -59,7 +64,7 @@ export const getFileContent = async (filePath: string) => {
                     endLine: lineNumber - 1
                 };
                 batches.push(currentBatch);
-                currentBatchContent = `${lineNumber}. ${line}\n`;
+                currentBatchContent = [{ line: lineNumber, code: line.trim() }]
                 characterCount = lineLength;
                 currentBatchStartLine = lineNumber;
                 lineNumber++;
@@ -82,8 +87,4 @@ export const getFileContent = async (filePath: string) => {
     } catch (error) {
         throw error;
     }
-}
-
-export const analyzeFileContent = async (fileContent: string) => {
-
 }
