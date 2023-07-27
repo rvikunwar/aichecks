@@ -82,7 +82,6 @@ export default async (
                 if (messages.length === 0) {
                     outro(`${green('✔')} Your code is fine, you can go ahead!`);
                 } else {
-                    await new Promise((resolve) => setTimeout(() => resolve(null), 1000))
                     messages.forEach((suggestionObj) => {
                         console.log(`${red(indent + '#' + suggestionObj.line)} ${cyan(suggestionObj.suggestion)}`)
                     })
